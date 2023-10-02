@@ -37,6 +37,7 @@
                 <form action="register" method="post"
                       class="login100-form validate-form flex-sb flex-w justify-content-center"
                       enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="${sessionScope.csrf_token}">
                     <span class="login100-form-title m-b-20">
                         Create account
                     </span>
