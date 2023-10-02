@@ -9,8 +9,5 @@
         <module name="test" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="jsp-servlet-ecommerce-website" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
