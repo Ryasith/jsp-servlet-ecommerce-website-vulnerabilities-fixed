@@ -9,6 +9,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet(name = "RegisterControl", value = "/register")
 @MultipartConfig
@@ -60,7 +61,9 @@ public class RegisterControl extends HttpServlet {
         }
         // Insert username, password to database and create account.
         else {
-            accountDao.createAccount(username, password, inputStream);
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+            accountDao.createAccount(username, hashedPassword, inputStream, null);
             String alert = "<div class=\"alert alert-success wrap-input100\">\n" +
                     "                        <p style=\"font-family: Ubuntu-Bold; font-size: 18px; margin: 0.25em 0; text-align: center\">\n" +
                     "                            Create account successfully!\n" +

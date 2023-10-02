@@ -14,12 +14,13 @@ public class Account {
 
     private byte[] image;
     private String base64Image;
+    private String googleUserId;
 
     public Account() {
 
     }
 
-    public Account(int id, String username, String password, int isSeller, int isAdmin, String address, String firstName, String lastName, String email, String phone, String base64Image) {
+    public Account(int id, String username, String password, int isSeller, int isAdmin, String address, String firstName, String lastName, String email, String phone, String base64Image, String googleUserId) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -31,6 +32,7 @@ public class Account {
         this.email = email;
         this.phone = phone;
         this.base64Image = base64Image;
+        this.googleUserId = googleUserId;
     }
 
     public int getId() {
@@ -127,5 +129,13 @@ public class Account {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getGoogleUserId() {
+        return googleUserId;
+    }
+
+    public void setGoogleUserId(String googleUserId) {
+        this.googleUserId = googleUserId;
     }
 }
