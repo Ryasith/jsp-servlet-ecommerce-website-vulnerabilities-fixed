@@ -34,6 +34,7 @@
                     <p><strong class="text-primary h4">$${product.price}</strong></p>
 
                     <form action="cart?product-id=&quantity=" method="get">
+                        <input type="hidden" name="csrf_token" value="${sessionScope.csrf_token}">
                         <div class="mb-3">
                             <div class="input-group mb-3" style="max-width: 200px;">
                                 <input name="product-id" value="${product.id}" type="hidden">

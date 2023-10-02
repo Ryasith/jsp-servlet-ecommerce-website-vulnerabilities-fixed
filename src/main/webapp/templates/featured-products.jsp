@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div class="site-section block-3 site-blocks-2 bg-light">
     <div class="container">
@@ -14,12 +15,12 @@
                         <div class="item">
                             <div class="block-4 text-center">
                                 <figure class="block-4-image">
-                                    <a href="product-detail?id=${o.id}">
+                                    <a href="product-detail?id=${fn:replace(o.id, '\\D', '')}">
                                         <img src="data:image/jpg;base64,${o.base64Image}" alt="Image placeholder" class="img-fluid">
                                     </a>
                                 </figure>
                                 <div class="block-4-text p-4">
-                                    <h3><a href="product-detail?id=${o.id}">${o.name}</a></h3>
+                                    <h3><a href="product-detail?id=${fn:replace(o.id, '\\D', '')}">${o.name}</a></h3>
                                     <p class="mb-0">$${o.price}</p>
                                 </div>
                             </div>

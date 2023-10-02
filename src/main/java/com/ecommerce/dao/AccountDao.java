@@ -2,7 +2,6 @@ package com.ecommerce.dao;
 
 import com.ecommerce.database.Database;
 import com.ecommerce.entity.Account;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,13 +30,9 @@ public class AccountDao {
     }
 
     // Method to execute get account query.
-    private Account queryGetAccount(String query) {
+    private Account queryGetAccount(ResultSet resultSet ) {
         Account account = new Account();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 account.setId(resultSet.getInt(1));
                 account.setUsername(resultSet.getString(2));
@@ -59,7 +54,7 @@ public class AccountDao {
 
                 return account;
             }
-        } catch (ClassNotFoundException | SQLException | IOException e) {
+        } catch (SQLException | IOException e) {
             System.out.println(e.getMessage());
         }
         return null;
@@ -67,48 +62,67 @@ public class AccountDao {
 
     // Method to get account by id.
     public Account getAccount(int accountId) {
-        String query = "SELECT * FROM account WHERE account_id = " + accountId;
-        return queryGetAccount(query);
-    }
-
-    // Method to get login account from database.
-    public Account checkLoginAccount(String username, String password) {
-        String query = "SELECT * FROM account WHERE account_name = '" + username + "'";
-        Account logAccount = queryGetAccount(query);
-        if (logAccount != null){
-            boolean passwordMatch = BCrypt.checkpw(password, logAccount.getPassword());
-            if (passwordMatch){
-                return logAccount;
-            }else{
-                return null;
-            }
+        String query = "SELECT * FROM account WHERE account_id = ?";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Database database = Database.getInstance();
+            connection = database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,accountId);
+            resultSet = preparedStatement.executeQuery();
+            return queryGetAccount(resultSet);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
 
-    // Method to get login using Google account.
-    public Account checkGoogleLoginAccount(String username, String UID) {
-        String query = "SELECT * FROM account WHERE account_name = '" + username + "' AND google_user_id = '" + UID + "'";
-        return queryGetAccount(query);
+    // Method to get login account from database.
+    public Account checkLoginAccount(String username, String password) {
+        String query = "SELECT * FROM account WHERE account_name = ? AND account_password = ?";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Database database = Database.getInstance();
+            connection = database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,username);
+            preparedStatement.setString(2,password);
+            resultSet = preparedStatement.executeQuery();
+            return queryGetAccount(resultSet);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     // Method to check is username exist or not.
     public boolean checkUsernameExists(String username) {
-        String query = "SELECT * FROM account WHERE account_name = '" + username + "'";
-        return (queryGetAccount(query) != null);
+        String query = "SELECT * FROM account WHERE account_name = ?";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Database database = Database.getInstance();
+            connection = database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,username);
+            resultSet = preparedStatement.executeQuery();
+            return (queryGetAccount(resultSet) != null);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 
     // Method to create an account.
-    public void createAccount(String username, String password, InputStream image, String google_user_id) {
-        String query = "INSERT INTO account (account_name, account_password, account_image, google_user_id, account_is_seller, account_is_admin ) VALUES (?, ?, ?, ?, 0, 0)";
+    public void createAccount(String username, String password, InputStream image) {
+        String query = "INSERT INTO account (account_name, account_password, account_image, account_is_seller, account_is_admin) VALUES (?, ?, ?, 0, 0)";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             preparedStatement.setBinaryStream(3, image);
-            preparedStatement.setString(4, google_user_id);
             preparedStatement.executeUpdate();
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
@@ -127,7 +141,8 @@ public class AccountDao {
                 "WHERE account_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
@@ -153,7 +168,8 @@ public class AccountDao {
                 "WHERE account_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);

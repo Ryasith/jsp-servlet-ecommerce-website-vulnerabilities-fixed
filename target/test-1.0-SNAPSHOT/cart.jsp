@@ -21,6 +21,7 @@
 
     <div class="site-section">
         <form class="container" method="post" action="checkout">
+            <input type="hidden" name="csrf_token" value="${sessionScope.csrf_token}">
             <div class="row mb-5">
                 <div class="col-md-12">
                     <div class="site-blocks-table">

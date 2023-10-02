@@ -1,0 +1,49 @@
+
+y
+java:S1192N"WDefine a constant instead of duplicating this literal "com.mysql.jdbc.Driver" 11 times.(¹µÖÁüÿÿÿÿ8¬ˆ›Û­1
+r	java:S117w"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤˜Õüÿÿÿÿ8­ˆ›Û­1
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(Ş´öùÿÿÿÿ8ôˆ›Û­1
+Z	java:S106E"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8ûˆ›Û­1
+O
+java:S4925N"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8ıˆ›Û­1
+Z	java:S106U"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8€‰›Û­1
+H
+java:S1168W"+Return an empty collection instead of null.(¥¹ï8ƒ‰›Û­1
+O
+java:S4925_"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8‚‰›Û­1
+Z	java:S106q"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8ƒ‰›Û­1
+O
+java:S4925z"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8„‰›Û­1
+[	java:S106‚"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8…‰›Û­1
+I
+java:S1168„"+Return an empty collection instead of null.(¥¹ï8…‰›Û­1
+P
+java:S4925‹"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8†‰›Û­1
+[	java:S106“"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8‡‰›Û­1
+I
+java:S1168•"+Return an empty collection instead of null.(¥¹ï8‡‰›Û­1
+P
+java:S4925œ"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8ˆ‰›Û­1
+[	java:S106¤"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8ˆ‰›Û­1
+I
+java:S1168¦"+Return an empty collection instead of null.(¥¹ï8æ¾¢Û­1
+P
+java:S4925°"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8‰‰›Û­1
+[	java:S106·"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8‹‰›Û­1
+P
+java:S4925À"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8Œ‰›Û­1
+[	java:S106Î"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8‰›Û­1
+P
+java:S4925Ö"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8‰›Û­1
+[	java:S106ã"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8‰›Û­1
+P
+java:S4925ë"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8‰›Û­1
+[	java:S106ó"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8‘‰›Û­1
+I
+java:S1168õ"+Return an empty collection instead of null.(¥¹ï8îÔ¦Û­1
+P
+java:S4925ı"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8è¾¢Û­1
+[	java:S106†"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8ê¾¢Û­1
+P
+java:S4925"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿ8ğÔ¦Û­1
+[	java:S106—"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8òÔ¦Û­1

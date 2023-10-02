@@ -19,10 +19,16 @@ public class ProductDetail extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         // Check if the sending link from out of stock request or not.
         boolean alert = request.getParameter("invalid-quantity") != null;
         // Get the id of selected product.
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(sanitizeInput(request.getParameter("id")));
 
         // Get product from database with the given id.
         Product product = productDao.getProduct(id);
@@ -46,5 +52,11 @@ public class ProductDetail extends HttpServlet {
         request.setAttribute("product_list", productList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("product-detail.jsp");
         requestDispatcher.forward(request, response);
+    }
+
+    private String sanitizeInput(String input) {
+
+        // replaces < and > characters with safe entities
+        return input.replace("<", "&lt;").replace(">", "&gt;");
     }
 }

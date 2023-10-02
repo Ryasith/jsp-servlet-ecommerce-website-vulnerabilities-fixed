@@ -2,20 +2,35 @@ package com.ecommerce.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Database {
-    public Connection getConnection() {
-        Connection conn;
+    private static Database instance;
+    private Connection conn;
+
+    // Private constructor to prevent instantiation from outside
+    private Database() {
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jsp-servlet-ecommerce-website", "root", "root");
-            return conn;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+        } catch (SQLException e) {
+            System.err.println("Failed to establish a database connection: " + e.getMessage());
         }
     }
 
+    public static synchronized Database getInstance() {
+        if (instance == null) {
+            instance = new Database();
+        }
+        return instance;
+    }
+
+    public Connection getConnection() {
+        return conn;
+    }
+
     public static void main(String[] args) {
-        System.out.println(new Database().getConnection());
+        // Usage of the singleton instance
+        Database database = Database.getInstance();
+        System.out.println(database.getConnection());
     }
 }
