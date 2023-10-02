@@ -22,6 +22,12 @@ public class HomeControl extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        //Setting X-Frame-Options Header
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         // Get all products from database.
         List<Product> productList = productDao.getAllProducts();
         // Get all categories from database.

@@ -41,6 +41,12 @@ public class EditProductControl extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         // Get the product id from request.
         int productId = Integer.parseInt(request.getParameter("product-id"));
         // Get product information from request.

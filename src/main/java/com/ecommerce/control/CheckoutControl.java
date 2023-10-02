@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet(name = "CheckoutControl", value = "/checkout")
 public class CheckoutControl extends HttpServlet {
@@ -23,6 +24,12 @@ public class CheckoutControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         // Get information from input field.
         String firstName = request.getParameter("first-name");
         String lastName = request.getParameter("last-name");
@@ -32,6 +39,9 @@ public class CheckoutControl extends HttpServlet {
 
         if (session.getAttribute("account") == null) {
             response.sendRedirect("login.jsp");
+        }
+        if (Objects.equals(request.getParameter("csrf_token"), session.getAttribute("csrf_token"))) {
+            response.sendRedirect("checkout.jsp");
         }
         else {
             double totalPrice = (double) session.getAttribute("total_price");

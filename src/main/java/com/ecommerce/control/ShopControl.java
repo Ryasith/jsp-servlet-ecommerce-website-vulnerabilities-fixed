@@ -22,6 +22,12 @@ public class ShopControl extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         // Get page number from request.
         String index = request.getParameter("index");
         if (index == null) {
@@ -51,5 +57,8 @@ public class ShopControl extends HttpServlet {
         request.setAttribute("page_active", index);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("shop.jsp");
         requestDispatcher.forward(request, response);
+    }
+    public String sanitizeProductId(String productId) {
+        return productId.replaceAll("[^0-9]", "");
     }
 }
