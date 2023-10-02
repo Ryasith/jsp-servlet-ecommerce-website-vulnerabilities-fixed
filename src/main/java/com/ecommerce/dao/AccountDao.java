@@ -86,7 +86,7 @@ public class AccountDao {
         return null;
     }
 
-    // Method to get login using Google account.
+    // Method to login using Google account.
     public Account checkGoogleLoginAccount(String username, String UID) {
         String query = "SELECT * FROM account WHERE account_name = '" + username + "' AND google_user_id = '" + UID + "'";
         return queryGetAccount(query);
