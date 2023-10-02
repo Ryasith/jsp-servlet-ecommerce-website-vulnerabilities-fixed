@@ -29,6 +29,7 @@
     <div class="site-section">
         <div class="container">
             <form class="row" method="post" action="checkout">
+                <input type="hidden" name="csrf_token" value="${sessionScope.csrf_token}">
                 <div class="col-md-6 mb-5 mb-md-0">
                     <h2 class="h3 mb-3 text-black">Billing Details</h2>
 
