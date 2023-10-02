@@ -2,9 +2,24 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
+      <option name="id" value="snapshots" />
+      <option name="name" value="snapshots" />
+      <option name="url" value="https://egekanayak:BESsFSJV8@artifactory.aus-aws.wiley.com/artifactory/libs-snapshot" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="release" />
+      <option name="name" value="release" />
+      <option name="url" value="https://egekanayak:BESsFSJV8@artifactory.aus-aws.wiley.com/artifactory/libs-release/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="release-local" />
+      <option name="name" value="release-local" />
+      <option name="url" value="https://egekanayak:BESsFSJV8@artifactory.aus-aws.wiley.com/artifactory/libs-release-local/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
@@ -12,9 +27,19 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="snapshots-local" />
+      <option name="name" value="snapshots-local" />
+      <option name="url" value="https://egekanayak:BESsFSJV8@artifactory.aus-aws.wiley.com/artifactory/libs-snapshot-local" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="central" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
   </component>
 </project>

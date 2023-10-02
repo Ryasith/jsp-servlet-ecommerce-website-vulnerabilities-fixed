@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.Objects;
+import java.util.UUID;
 
 @WebServlet(name = "LoginControl", value = "/login")
 public class LoginControl extends HttpServlet {
@@ -33,11 +35,18 @@ public class LoginControl extends HttpServlet {
     }
 
     private void executeLogin(HttpServletRequest request, HttpServletResponse response, Account account) throws IOException {
+        response.setHeader("X-Frame-Options", "DENY");
         // Get the status of remember me checkbox.
         HttpSession session = request.getSession();
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         boolean rememberMe = (request.getParameter("remember-me-checkbox") != null);
 
         session.setAttribute("account", account);
+        session.setAttribute("csrf_token", UUID.randomUUID().toString());
         if (rememberMe) {
             Cookie usernameCookie = new Cookie("username", account.getUsername());
             usernameCookie.setMaxAge(600);
@@ -51,14 +60,25 @@ public class LoginControl extends HttpServlet {
     }
 
     private void checkLoginAccountFirstTime(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         // Check status is typed wrong input or not.
+        HttpSession session = request.getSession();
         String status="";
-        if (request.getParameter("status") != null) {
+        String username="";
+        String password="";
+        if (request.getParameter("status") != null && Objects.equals(request.getParameter("csrf_token"), session.getAttribute("csrf_token"))) {
             status = request.getParameter("status");
         }
         // Get the submitted username and password.
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        if (Objects.equals(request.getParameter("csrf_token"), session.getAttribute("csrf_token"))) {
+            username = request.getParameter("username");
+            password = request.getParameter("password");
+        }
 
         // Check account in database.
         Account account = accountDao.checkLoginAccount(username, password);
@@ -84,6 +104,12 @@ public class LoginControl extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         // Check the cookies of account.
         Account account = getAccountCookie(request);
         if (account == null) {
@@ -97,11 +123,23 @@ public class LoginControl extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         service(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         service(request, response);
     }
 }

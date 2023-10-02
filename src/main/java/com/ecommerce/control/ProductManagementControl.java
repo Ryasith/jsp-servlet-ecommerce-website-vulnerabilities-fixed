@@ -24,6 +24,12 @@ public class ProductManagementControl extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
         // Get the seller id from session.
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");

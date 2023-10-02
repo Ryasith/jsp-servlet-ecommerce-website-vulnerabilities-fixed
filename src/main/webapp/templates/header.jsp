@@ -8,6 +8,7 @@
             <div class="row align-items-center">
                 <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
                     <form action="search" method="get" class="site-block-top-search">
+                        <input type="hidden" name="csrf_token" value="${sessionScope.csrf_token}">
                         <span class="icon icon-search2"></span>
                         <input name="keyword" type="text" class="form-control border-0" placeholder="Search">
                     </form>
@@ -27,14 +28,14 @@
                                     <c:if test="${account.base64Image != null}">
                                         <img class="icon" src="data:image/jpg;base64,${account.base64Image}"
                                              id="dropdownMenuReference"
-                                             data-bs-toggle="dropdown" alt="image"
+                                             data-toggle="dropdown" alt="image"
                                              style="width: 1.5em; border-radius: 50%; margin-right: 10px; margin-bottom: 10px">
                                     </c:if>
 
                                     <c:if test="${account.base64Image == null}">
                                         <img class="icon" src="../static/images/blank_avatar.png"
                                              id="dropdownMenuReference"
-                                             data-bs-toggle="dropdown" alt="image"
+                                             data-toggle="dropdown" alt="image"
                                              style="width: 1.5em; border-radius: 50%; margin-right: 10px; margin-bottom: 10px">
                                     </c:if>
 

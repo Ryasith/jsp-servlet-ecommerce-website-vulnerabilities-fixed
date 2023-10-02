@@ -46,13 +46,9 @@ public class ProductDao {
     }
 
     // Method to execute query to get list products.
-    private List<Product> getListProductQuery(String query) {
+    private List<Product> getListProductQuery(ResultSet resultSet) {
         List<Product> list = new ArrayList<>();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 String name = resultSet.getString(2);
@@ -69,7 +65,7 @@ public class ProductDao {
 
                 list.add(new Product(id, name, base64Image, price, description, category, account, isDelete, amount));
             }
-        } catch (SQLException | ClassNotFoundException | IOException e) {
+        } catch (SQLException | IOException e) {
             System.out.println(e.getMessage());
         }
         return list;
@@ -78,17 +74,29 @@ public class ProductDao {
     // Method to get all products from database.
     public List<Product> getAllProducts() {
         String query = "SELECT * FROM product WHERE product_is_deleted = false";
-        return getListProductQuery(query);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Database database = Database.getInstance();
+            connection = database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            return getListProductQuery(resultSet);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     // Method to get a product by its id from database.
     public Product getProduct(int productId) {
         Product product = new Product();
-        String query = "SELECT * FROM product WHERE product_id = " + productId;
+        String query = "SELECT * FROM product WHERE product_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,productId);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 product.setId(resultSet.getInt(1));
@@ -109,20 +117,53 @@ public class ProductDao {
 
     // Method to get a categories by its id from database.
     public List<Product> getAllCategoryProducts(int category_id) {
-        String query = "SELECT * FROM product WHERE fk_category_id = " + category_id + " AND product_is_deleted = false";
-        return getListProductQuery(query);
+        String query = "SELECT * FROM product WHERE fk_category_id = ? AND product_is_deleted = false";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Database database = Database.getInstance();
+            connection = database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,category_id);
+            resultSet = preparedStatement.executeQuery();
+            return getListProductQuery(resultSet);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     // Method to search a product by a keyword.
     public List<Product> searchProduct(String keyword) {
-        String query = "SELECT * FROM product WHERE product_name like '%" + keyword + "%' AND product_is_deleted = false";
-        return getListProductQuery(query);
+        String query = "SELECT * FROM product WHERE product_name like ? AND product_is_deleted = false";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Database database = Database.getInstance();
+            connection = database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,"%"+keyword+"%");
+            resultSet = preparedStatement.executeQuery();
+            return getListProductQuery(resultSet);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     // Method to get all products of a seller.
     public List<Product> getSellerProducts(int sellerId) {
-        String query = "SELECT * FROM product WHERE fk_account_id = " + sellerId;
-        return getListProductQuery(query);
+        String query = "SELECT * FROM product WHERE fk_account_id = ?";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Database database = Database.getInstance();
+            connection = database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,sellerId);
+            resultSet = preparedStatement.executeQuery();
+            return getListProductQuery(resultSet);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     // Method to remove a product from database by its id.
@@ -130,11 +171,13 @@ public class ProductDao {
         // Get id of the product.
         int productId = product.getId();
 
-        String query = "UPDATE product SET product_is_deleted = true WHERE product_id = " + productId;
+        String query = "UPDATE product SET product_is_deleted = true WHERE product_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,productId);
             preparedStatement.executeUpdate();
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
@@ -147,7 +190,8 @@ public class ProductDao {
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, productName);
             preparedStatement.setBinaryStream(2, productImage);
@@ -168,7 +212,8 @@ public class ProductDao {
         String query = "UPDATE product SET product_name = ?, product_image = ?, product_price = ?, product_description = ?, fk_category_id = ?, product_amount = ? WHERE product_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, productName);
             preparedStatement.setBinaryStream(2, productImage);
@@ -185,8 +230,19 @@ public class ProductDao {
 
     // Method to get 12 products to display on each page.
     public List<Product> get12ProductsOfPage(int index) {
-        String query = "SELECT * FROM product WHERE product_is_deleted = false LIMIT " + ((index - 1) * 12) + ", 12";
-        return getListProductQuery(query);
+        String query = "SELECT * FROM product WHERE product_is_deleted = false LIMIT ?, 12";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Database database = Database.getInstance();
+            connection = database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,((index - 1) * 12));
+            resultSet = preparedStatement.executeQuery();
+            return getListProductQuery(resultSet);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     // Method to get total products in database.
@@ -195,7 +251,8 @@ public class ProductDao {
         String query = "SELECT COUNT(*) FROM product WHERE product_is_deleted = false";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -212,7 +269,8 @@ public class ProductDao {
         String query = "UPDATE product SET product_amount = product_amount - ? WHERE product_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, productAmount);
             preparedStatement.setInt(2, productId);

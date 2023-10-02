@@ -37,6 +37,7 @@
                 <form action="register" method="post"
                       class="login100-form validate-form flex-sb flex-w justify-content-center"
                       enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="${sessionScope.csrf_token}">
                     <span class="login100-form-title m-b-20">
                         Create account
                     </span>
@@ -92,7 +93,7 @@
 
 <div id="dropDownSelect1"></div>
 
-<script src="static/vendor/jquery/jquery-3.7.1.min.js"></script>
+<script src="static/vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="static/vendor/animsition/js/animsition.min.js"></script>
 <script src="static/vendor/bootstrap/js/popper.js"></script>
 <script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -101,7 +102,7 @@
 <script src="static/vendor/daterangepicker/daterangepicker.js"></script>
 <script src="static/vendor/countdowntime/countdowntime.js"></script>
 
-<script src="static/js/jquery-3.7.1.min.js"></script>
+<script src="static/js/jquery-3.3.1.min.js"></script>
 <script src="static/js/jquery-ui.js"></script>
 <script src="static/js/popper.min.js"></script>
 <script src="static/js/bootstrap.min.js"></script>

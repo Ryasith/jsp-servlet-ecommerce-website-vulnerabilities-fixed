@@ -3,13 +3,11 @@
     <output-path>$PROJECT_DIR$/target</output-path>
     <properties id="maven-jee-properties">
       <options>
-        <exploded>false</exploded>
         <module>jsp-servlet-ecommerce-website</module>
         <packaging>war</packaging>
-        <unpackNestedArchives>false</unpackNestedArchives>
       </options>
     </properties>
-    <root id="archive" name="ecommerce-website-1.0-SNAPSHOT.war">
+    <root id="archive" name="test-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="jsp-servlet-ecommerce-website:war exploded" />
     </root>
   </artifact>

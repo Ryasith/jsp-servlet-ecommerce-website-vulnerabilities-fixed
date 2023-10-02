@@ -3,14 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    .g-signin2 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0 auto; /* Center horizontally */
-    }
-</style>
+
 <head>
     <title>Login</title>
     <meta charset="UTF-8">
@@ -77,11 +70,6 @@
                         </button>
                     </div>
                 </form>
-                <hr>
-                <br>
-                <a href="/google-login" class="g-signin2">
-                    <img src="static/images/Goodle.png" alt="Login with Google" width="300" height="60">
-                </a>
             </div>
 
             <div class="text-center">
@@ -98,7 +86,7 @@
 
 <div id="dropDownSelect1"></div>
 
-<script src="static/vendor/jquery/jquery-3.7.1.min.js"></script>
+<script src="static/vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="static/vendor/animsition/js/animsition.min.js"></script>
 <script src="static/vendor/bootstrap/js/popper.js"></script>
 <script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -107,7 +95,7 @@
 <script src="static/vendor/daterangepicker/daterangepicker.js"></script>
 <script src="static/vendor/countdowntime/countdowntime.js"></script>
 
-<script src="static/js/jquery-3.7.1.min.js"></script>
+<script src="static/js/jquery-3.3.1.min.js"></script>
 <script src="static/js/jquery-ui.js"></script>
 <script src="static/js/popper.min.js"></script>
 <script src="static/js/bootstrap.min.js"></script>

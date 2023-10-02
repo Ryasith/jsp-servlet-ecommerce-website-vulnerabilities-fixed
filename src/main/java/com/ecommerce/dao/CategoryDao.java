@@ -18,11 +18,13 @@ public class CategoryDao {
     // Method to set amount of products for category.
     private void queryCategoryProductAmount(Category category) {
         int productId = category.getId();
-        String query = "SELECT COUNT(*) FROM product WHERE fk_category_id = " + productId + " AND product_is_deleted = false";
+        String query = "SELECT COUNT(*) FROM product WHERE fk_category_id = ? AND product_is_deleted = false";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,productId);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 category.setTotalCategoryProduct(resultSet.getInt(1));
@@ -36,11 +38,13 @@ public class CategoryDao {
     // Method to get category by id.
     public Category getCategory(int categoryId) {
         Category category = new Category();
-        String query = "SELECT * FROM category WHERE category_id = " + categoryId;
+        String query = "SELECT * FROM category WHERE category_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,categoryId);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 category.setId(resultSet.getInt(1));
@@ -62,7 +66,8 @@ public class CategoryDao {
         String query = "SELECT * FROM category";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

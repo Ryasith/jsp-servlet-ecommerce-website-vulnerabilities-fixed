@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.ecommerce.dao.CategoryDao" %>
+<%@ page import="com.ecommerce.control.ShopControl" %>
 <% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); %>
 
 <!DOCTYPE html>
@@ -53,13 +55,13 @@
                             <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                                 <div class="block-4 text-center border" style="height: 100%">
                                     <figure class="block-4-image">
-                                        <a href="product-detail?id=${o.id}">
+                                        <a href="product-detail?id=${fn:replace(o.id, '\\D', '')}">
                                             <img src="data:image/jpg;base64,${o.base64Image}" alt="Image placeholder"
                                                  class="img-fluid" style="height: 100%">
                                         </a>
                                     </figure>
                                     <div class="block-4-text p-4">
-                                        <h3><a href="product-detail?id=${o.id}">${o.name}</a></h3>
+                                        <h3><a href="product-detail?id=${fn:replace(o.id, '\\D', '')}">${o.name}</a></h3>
                                         <p class="mb-0">$${o.price}</p>
                                     </div>
                                 </div>

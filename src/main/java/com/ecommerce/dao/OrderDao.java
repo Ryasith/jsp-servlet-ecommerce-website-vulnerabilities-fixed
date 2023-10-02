@@ -32,7 +32,8 @@ public class OrderDao {
         int orderId = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -68,7 +69,8 @@ public class OrderDao {
 
     // Method to insert order information to database.
     public void createOrder(int accountId, double totalPrice, List<CartProduct> cartProducts) {
-        connection = new Database().getConnection();
+        Database database = Database.getInstance();
+        connection = database.getConnection();
         String query = "INSERT INTO `order` (fk_account_id, order_total) VALUES (?, ?);";
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -89,11 +91,13 @@ public class OrderDao {
     // Method to get order detail list of a seller.
     public List<CartProduct> getSellerOrderDetail(int productId) {
         List<CartProduct> list = new ArrayList<>();
-        String query = "SELECT * FROM order_detail WHERE fk_product_id = " + productId;
+        String query = "SELECT * FROM order_detail WHERE fk_product_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,productId);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Product product = productDao.getProduct(resultSet.getInt(1));
@@ -112,11 +116,13 @@ public class OrderDao {
     // Method to get order history of a customer.
     public List<Order> getOrderHistory(int accountId) {
         List<Order> list = new ArrayList<>();
-        String query = "SELECT * FROM `order` WHERE fk_account_id = " + accountId;
+        String query = "SELECT * FROM `order` WHERE fk_account_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,accountId);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int orderId = resultSet.getInt(1);
@@ -135,11 +141,13 @@ public class OrderDao {
     // Method to get order detail history.
     public List<CartProduct> getOrderDetailHistory(int orderId) {
         List<CartProduct> list = new ArrayList<>();
-        String query = "SELECT * FROM order_detail WHERE fk_order_id = " + orderId;
+        String query = "SELECT * FROM order_detail WHERE fk_order_id = ?";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = new Database().getConnection();
+            Database database = Database.getInstance();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1,orderId);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Product product = productDao.getProduct(resultSet.getInt(1));

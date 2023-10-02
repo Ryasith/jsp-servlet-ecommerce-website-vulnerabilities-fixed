@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet(name = "CartControl", value = "/cart")
 public class CartControl extends HttpServlet {
@@ -45,9 +46,15 @@ public class CartControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        response.setHeader("X-Frame-Options", "DENY");
+        // Set the Content-Type header
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Set the X-Content-Type-Options header to prevent MIME-sniffing
+        response.setHeader("X-Content-Type-Options", "nosniff");
 
         // Check if request is remove product from cart or not.
-        if (request.getParameter("remove-product-id") != null) {
+        if (request.getParameter("remove-product-id") != null && Objects.equals(request.getParameter("csrf_token"), session.getAttribute("csrf_token"))) {
             Order order = (Order) session.getAttribute("order");
             double totalPrice = (double) session.getAttribute("total_price");
             int productId = Integer.parseInt(request.getParameter("remove-product-id"));
@@ -61,7 +68,7 @@ public class CartControl extends HttpServlet {
         int productId;
         // Check is the total price of order exist or not.
         double totalPrice;
-        if (session.getAttribute("total_price") == null) {
+        if (session.getAttribute("total_price") == null && Objects.equals(request.getParameter("csrf_token"), session.getAttribute("csrf_token"))) {
             totalPrice = 0;
         } else {
             totalPrice = (double) session.getAttribute("total_price");
@@ -70,13 +77,13 @@ public class CartControl extends HttpServlet {
         // Generate if product exist in database.
         if (request.getParameter("product-id") != null) {
             // Get the id of product from request.
-            productId = Integer.parseInt(request.getParameter("product-id"));
+            productId = Integer.parseInt(sanitizeProductId(request.getParameter("product-id")));
 
             // Get product information from database.
             Product product = productDao.getProduct(productId);
             if (product != null) {
                 // Get the quantity of the adding product.
-                if (request.getParameter("quantity") != null) {
+                if (request.getParameter("quantity") != null && Objects.equals(request.getParameter("csrf_token"), session.getAttribute("csrf_token"))) {
                     // Get the quantity of the product if the quantity is more than 1.
                     quantity = Integer.parseInt(request.getParameter("quantity"));
                     // Check if the request quantity is more than the number of products left or not.
@@ -86,7 +93,7 @@ public class CartControl extends HttpServlet {
                     }
                 }
                 // Check the product has been added to cart yet.
-                if (session.getAttribute("order") == null) {
+                if (session.getAttribute("order") == null && Objects.equals(request.getParameter("csrf_token"), session.getAttribute("csrf_token"))) {
                     // Create an order and list of product for it.
                     Order order = new Order();
                     List<CartProduct> list = new ArrayList<>();
@@ -138,7 +145,11 @@ public class CartControl extends HttpServlet {
                     session.setAttribute("order", order);
                 }
             }
-            response.sendRedirect("product-detail?id=" + productId);
+            response.sendRedirect("product-detail?id=" + sanitizeProductId(String.valueOf(productId)));
         }
+    }
+
+    private String sanitizeProductId(String productId) {
+        return productId.replaceAll("[^0-9]", "");
     }
 }
